@@ -1,0 +1,33 @@
+--- a/assets/scenes/cleaning_products.usda
++++ b/assets/scenes/cleaning_products.usda
+@@ -397,7 +397,7 @@
+ 
+     def Xform "GroundPlane"
+     {
+-        token visibility = "inherited"
++        token visibility = "invisible"
+         quatf xformOp:orient = (1, 0, 0, 0)
+         float3 xformOp:scale = (1, 1, 1)
+         double3 xformOp:translate = (0, 0, -0.697)
+--- a/assets/scenes/shelf_with_cleaning_products.usda
++++ b/assets/scenes/shelf_with_cleaning_products.usda
+@@ -397,7 +397,7 @@
+ 
+     def Xform "GroundPlane"
+     {
+-        token visibility = "inherited"
++        token visibility = "invisible"
+         quatf xformOp:orient = (1, 0, 0, 0)
+         float3 xformOp:scale = (1, 1, 1)
+         double3 xformOp:translate = (0, 0, -0.697)
+--- a/assets/scenes/shelf_with_cleaning_products2.usda
++++ b/assets/scenes/shelf_with_cleaning_products2.usda
+@@ -397,7 +397,7 @@
+ 
+     def Xform "GroundPlane"
+     {
+-        token visibility = "inherited"
++        token visibility = "invisible"
+         quatf xformOp:orient = (1, 0, 0, 0)
+         float3 xformOp:scale = (1, 1, 1)
+         double3 xformOp:translate = (0, 0, -0.697)

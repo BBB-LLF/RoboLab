@@ -1,0 +1,48 @@
+{
+  "baseline_assets_match_public_revision": "ad45d4f974725d020f82c2b0d77d78533aeba2b3",
+  "scenes": [
+    {
+      "scene": "assets/scenes/cleaning_products.usda",
+      "public_baseline_sha256": "26de0b4c55a15298fe4532689e56893a885aa6a580e286be6b3c6c5be33e11a9",
+      "fixed_sha256": "ba48e56ebf7ed2edeebce70066e87e8a8ca290c134310fa87d35fa77d4a724b2",
+      "only_change": "/world/GroundPlane.visibility: inherited -> invisible",
+      "collision_floor_enabled": true,
+      "ground_z_m": -0.697
+    },
+    {
+      "scene": "assets/scenes/shelf_with_cleaning_products.usda",
+      "public_baseline_sha256": "0a1dd61f12f43959998180e85fab74127da9239dab1796c4a8ab821079a430f0",
+      "fixed_sha256": "ba4b8ed7f02ac4f383928685fd625db2dd318cce8c2430e1a5c35531bfc38005",
+      "only_change": "/world/GroundPlane.visibility: inherited -> invisible",
+      "collision_floor_enabled": true,
+      "ground_z_m": -0.697
+    },
+    {
+      "scene": "assets/scenes/shelf_with_cleaning_products2.usda",
+      "public_baseline_sha256": "dde317fc81ff829d596c0988f82fbaa3dfec891d8e638726c7d822b4b322a3f8",
+      "fixed_sha256": "d1e41e45a3a85e09ab0762de2bd315d238821398fca1f288b2742a540cc930c5",
+      "only_change": "/world/GroundPlane.visibility: inherited -> invisible",
+      "collision_floor_enabled": true,
+      "ground_z_m": -0.697
+    }
+  ],
+  "regressions_before": {
+    "failed": 3
+  },
+  "regressions_after": {
+    "passed": 3
+  },
+  "captured_scene_shader_records_unchanged": 53,
+  "render": {
+    "seed": 0,
+    "warmup_frames": 150,
+    "cameras_reviewed": [
+      "egocentric_mirrored_camera",
+      "over_shoulder_right_camera",
+      "over_shoulder_left_camera",
+      "wrist_cam"
+    ],
+    "physics_actions": 0,
+    "separate_before_after_processes": true
+  }
+}
