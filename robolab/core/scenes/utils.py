@@ -18,6 +18,7 @@ from typing import Any
 import robolab.constants
 from robolab.constants import SCENE_DIR
 from robolab.core.utils.debug_utils import get_caller_info
+from robolab.core.utils.isaaclab3_compat import cfg_quat
 
 ACCEPTED_SCENE_EXTENSIONS = (".usda", ".usdc", ".usdz", ".usd")
 
@@ -130,7 +131,7 @@ def _scrape_scene_cached(scene_path: str, objects_of_interest_tuple: tuple = Non
             spawn=None,
             init_state=RigidObjectCfg.InitialStateCfg(
                 pos=obj_info['position'],
-                rot=obj_info['rotation'],
+                rot=cfg_quat(obj_info['rotation']),  # USD quaternion is (w, x, y, z)
                 lin_vel=(0.0, 0.0, 0.0),
                 ang_vel=(0.0, 0.0, 0.0),
             ),

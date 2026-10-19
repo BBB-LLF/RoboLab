@@ -7,7 +7,6 @@ import isaaclab.envs.mdp as mdp
 import isaaclab.sim as sim_utils
 import numpy as np
 import torch
-import warp as wp
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 from isaaclab.controllers.differential_ik_cfg import DifferentialIKControllerCfg
@@ -24,6 +23,7 @@ from isaaclab.markers.config import FRAME_MARKER_CFG
 from isaaclab.sensors import TiledCameraCfg
 from isaaclab.sensors.frame_transformer.frame_transformer_cfg import FrameTransformerCfg, OffsetCfg
 from isaaclab.utils import configclass, noise
+from robolab.core.utils.isaaclab3_compat import cfg_quat, to_torch
 
 from robolab.constants import ROBOTS_DIR
 
@@ -32,7 +32,7 @@ from robolab.constants import ROBOTS_DIR
 #   - examples/run_abs_ik_demo.py (converts eef_frame targets → base_link IK actions)
 # Kept here so all code agrees on what eef_frame is.
 EEF_OFFSET_POS: tuple[float, float, float] = (0.0, 0.0, 0.0)
-EEF_OFFSET_ROT: tuple[float, float, float, float] = (0.5, -0.5, 0.5, -0.5)
+EEF_OFFSET_ROT: tuple[float, float, float, float] = cfg_quat((0.5, -0.5, 0.5, -0.5))
 
 _frame_marker_cfg = FRAME_MARKER_CFG.replace(prim_path="/Visuals/TF")
 _frame_marker_cfg.markers["frame"].scale = (0.05, 0.05, 0.05)
@@ -53,7 +53,7 @@ _WRIST_CAM = TiledCameraCfg(
         vertical_aperture=3.024,
     ),
     offset=TiledCameraCfg.OffsetCfg(
-        pos=(0.011, -0.031, -0.074), rot=(-0.420, 0.570, 0.576, -0.409), convention="opengl"
+        pos=(0.011, -0.031, -0.074), rot=cfg_quat((-0.420, 0.570, 0.576, -0.409)), convention="opengl"
     ),
 )
 
@@ -79,7 +79,7 @@ class DroidCfg:
         ),
         init_state=ArticulationCfg.InitialStateCfg(
             pos=(0, 0, 0),
-            rot=(1, 0, 0, 0),
+            rot=cfg_quat((1, 0, 0, 0)),
             joint_pos={
                 "panda_joint1": 0.0,
                 "panda_joint2": -1 / 5 * np.pi,
@@ -184,9 +184,7 @@ def _to_torch(value):
     be indexed with torch-style fancy indexing. Convert warp -> torch; pass
     torch tensors through unchanged.
     """
-    if isinstance(value, torch.Tensor):
-        return value
-    return wp.to_torch(value)
+    return to_torch(value)
 
 
 def arm_joint_pos(

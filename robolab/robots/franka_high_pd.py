@@ -8,6 +8,7 @@ from isaaclab.markers.config import FRAME_MARKER_CFG
 from isaaclab.sensors.frame_transformer.frame_transformer_cfg import FrameTransformerCfg, OffsetCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+from robolab.core.utils.isaaclab3_compat import cfg_quat
 
 from robolab.robots.franka_definitions import *  # noqa
 
@@ -90,7 +91,7 @@ class FrankaCfg:
                 name="contact_frame",
                 offset=OffsetCfg(
                     pos=[0.0, 0.0, 0.1034],
-                    rot=[0.0, 0.0, 0.0, 1.0],
+                    rot=cfg_quat([0.0, 0.0, 0.0, 1.0]),
                 ),
             ),
             FrameTransformerCfg.FrameCfg(
@@ -98,7 +99,7 @@ class FrankaCfg:
                 name="acronym_frame",
                 offset=OffsetCfg(
                     pos=[0.0, 0.0, 0.0],
-                    rot=[0.70711, 0.0, 0.0, -0.70711],
+                    rot=cfg_quat([0.70711, 0.0, 0.0, -0.70711]),
                 ),
             ),
             FrameTransformerCfg.FrameCfg(

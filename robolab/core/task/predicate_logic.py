@@ -19,6 +19,7 @@ from typing import Callable
 import numpy as np
 import torch
 from isaaclab.utils.math import quat_apply, quat_apply_inverse
+from robolab.core.utils.isaaclab3_compat import quat_wxyz
 
 import robolab.constants
 from robolab.constants import DEBUG
@@ -704,6 +705,7 @@ def upright(world, object: str, tolerance: float = 0.1, up_axis: str = "z", env_
     axis_map = {"x": 0, "y": 1, "z": 2}
     axis_idx = axis_map[up_axis.lower()]
 
+    quat = quat_wxyz(quat)  # IsaacLab 3.0 returns (x, y, z, w)
     if env_id is not None:
         w, x, y, z = quat[0], quat[1], quat[2], quat[3]
         R = torch.tensor([

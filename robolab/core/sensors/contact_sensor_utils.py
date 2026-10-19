@@ -2,7 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import torch
-from isaaclab.sensors import ContactSensor, ContactSensorCfg
+from isaaclab.sensors import ContactSensorCfg
+
+# ContactSensor base class, correct for isinstance() on IsaacLab 2.x and 3.0
+from robolab.core.utils.isaaclab3_compat import ContactSensor
 
 
 def create_contact_sensor_cfg(entity_1, entity_2, update_period=0.0, history_length=6, debug_vis=False):

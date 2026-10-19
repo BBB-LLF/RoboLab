@@ -13,6 +13,7 @@ from isaaclab.sensors.frame_transformer.frame_transformer import FrameTransforme
 from isaaclab.sensors.frame_transformer.frame_transformer_cfg import FrameTransformerCfg, OffsetCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+from robolab.core.utils.isaaclab3_compat import cfg_quat, to_torch
 
 from robolab.robots.franka_definitions import *  # noqa
 
@@ -101,7 +102,7 @@ class FrankaCfg:
                 name="contact_frame",
                 offset=OffsetCfg(
                     pos=[0.0, 0.0, 0.1034],
-                    rot=[0.0, 0.0, 0.0, 1.0],
+                    rot=cfg_quat([0.0, 0.0, 0.0, 1.0]),
                 ),
             ),
             FrameTransformerCfg.FrameCfg(
@@ -109,7 +110,7 @@ class FrankaCfg:
                 name="acronym_frame",
                 offset=OffsetCfg(
                     pos=[0.0, 0.0, 0.0],
-                    rot=[0.70711, 0.0, 0.0, -0.70711],
+                    rot=cfg_quat([0.70711, 0.0, 0.0, -0.70711]),
                 ),
             ),
             FrameTransformerCfg.FrameCfg(
@@ -151,21 +152,21 @@ class FrankaCfg:
 
 def ee_frame_pos(env: ManagerBasedRLEnv, frames_cfg: SceneEntityCfg = SceneEntityCfg("frames")) -> torch.Tensor:
     frames: FrameTransformer = env.scene[frames_cfg.name]
-    ee_frame_pos = frames.data.target_pos_w[:, 0, :] - env.scene.env_origins[:, 0:3]
+    ee_frame_pos = to_torch(frames.data.target_pos_w)[:, 0, :] - env.scene.env_origins[:, 0:3]
 
     return ee_frame_pos
 
 
 def ee_frame_quat(env: ManagerBasedRLEnv, frames_cfg: SceneEntityCfg = SceneEntityCfg("frames")) -> torch.Tensor:
     frames: FrameTransformer = env.scene[frames_cfg.name]
-    ee_frame_quat = frames.data.target_quat_w[:, 0, :]
+    ee_frame_quat = to_torch(frames.data.target_quat_w)[:, 0, :]
 
     return ee_frame_quat
 
 
 def gripper_pos(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     robot: Articulation = env.scene[robot_cfg.name]
-    finger_joint_1 = robot.data.joint_pos[:, -1].clone().unsqueeze(1)
-    finger_joint_2 = -1 * robot.data.joint_pos[:, -2].clone().unsqueeze(1)
+    finger_joint_1 = to_torch(robot.data.joint_pos)[:, -1].clone().unsqueeze(1)
+    finger_joint_2 = -1 * to_torch(robot.data.joint_pos)[:, -2].clone().unsqueeze(1)
 
     return torch.cat((finger_joint_1, finger_joint_2), dim=1)

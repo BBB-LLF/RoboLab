@@ -7,6 +7,7 @@ import torch
 from isaaclab.managers.recorder_manager import RecorderTerm, RecorderTermCfg
 from isaaclab.sensors import Camera
 from isaaclab.utils import configclass
+from robolab.core.utils.isaaclab3_compat import to_torch
 
 ########################################################################################
 # Recorder terms. Adapted from isaaclab.envs.mdp.recorders.recorders.
@@ -151,13 +152,13 @@ class PostStepEndEffectorPoseRecorder(RecorderTerm):
         # Get body pose from articulation (already computed by physics, no extra cost)
         # Shift position into the env-local frame so multi-env recordings are comparable
         # (matches the ee_pos observation term). env_origins is (num_envs, 3).
-        ee_pos = self._robot.data.body_pos_w[:, self._ee_body_idx, :]  # (num_envs, 3), world frame
+        ee_pos = to_torch(self._robot.data.body_pos_w)[:, self._ee_body_idx, :]  # (num_envs, 3), world frame
         ee_pos = ee_pos - self._env.scene.env_origins[:, 0:3]  # (num_envs, 3), env-local frame
-        ee_quat = self._robot.data.body_quat_w[:, self._ee_body_idx, :]  # (num_envs, 4)
+        ee_quat = to_torch(self._robot.data.body_quat_w)[:, self._ee_body_idx, :]  # (num_envs, 4)
 
         # Get body velocity from articulation
-        ee_lin_vel = self._robot.data.body_lin_vel_w[:, self._ee_body_idx, :]  # (num_envs, 3)
-        ee_ang_vel = self._robot.data.body_ang_vel_w[:, self._ee_body_idx, :]  # (num_envs, 3)
+        ee_lin_vel = to_torch(self._robot.data.body_lin_vel_w)[:, self._ee_body_idx, :]  # (num_envs, 3)
+        ee_ang_vel = to_torch(self._robot.data.body_ang_vel_w)[:, self._ee_body_idx, :]  # (num_envs, 3)
 
         return "ee_pose", {
             "position": ee_pos,
