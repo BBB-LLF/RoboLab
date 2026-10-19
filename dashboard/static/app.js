@@ -1835,6 +1835,8 @@ async function renderEpisode(runId, task, envId, runIndex) {
     chip(`${ep.episode_step} steps`),
     chip(fmtSec(ep.duration)),
     ep.instruction_type ? chip(`instr: ${ep.instruction_type}`) : null,
+    ep.instruction_fields?.length ? chip(`fields: ${ep.instruction_fields.join(', ')}`) : null,
+    ep.instruction_fields_used?.length ? chip(`used: ${ep.instruction_fields_used.join(', ')}`) : null,
     ...(ep.attributes || []).map((a) => chip(a)));
   pane.appendChild(header);
 
@@ -2179,6 +2181,8 @@ function renderTabMeta(host, ep) {
     ['success', ep.success ? 'true' : 'false'],
     ['instruction', ep.instruction || '—'],
     ['instruction_type', ep.instruction_type || '—'],
+    ['instruction_fields', (ep.instruction_fields || []).join(', ') || '—'],
+    ['instruction_fields_used', (ep.instruction_fields_used || []).join(', ') || '—'],
     ['attributes', (ep.attributes || []).join(', ') || '—'],
     ['has_hdf5', ep.has_hdf5 ? 'true' : 'false'],
     ['videos', (ep.videos || []).map((v) => v.name).join(', ') || 'none'],

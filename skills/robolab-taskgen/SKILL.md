@@ -338,11 +338,11 @@ python robolab/tasks/_utils/generate_task_metadata.py \
 python examples/run_empty.py --task <TaskClassName>
 ```
 
-See [Task Libraries](docs/task_libraries.md) for metadata details and [Environment Registration](docs/environment_registration.md) for how to register and run your task with a policy.
+See [Task Libraries](../../docs/task_libraries.md) for metadata details and [Environment Registration](../../docs/environment_registration.md) for how to register and run your task with a policy.
 
 ---
 
-**Important:** These commands must be run inside the project's Docker image. See the top of `CLAUDE.md` for how to run commands in Docker.
+**Important:** Run these commands in the project's Docker image. See [Docker setup](../../docker/README.md) for build and run instructions.
 
 ## Further Reading
 

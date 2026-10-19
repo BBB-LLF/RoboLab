@@ -12,7 +12,11 @@
 
 ## News
 
-- **[2026/08]** 🔥 [**RoboVoLo**](https://github.com/NVlabs/RoboVoLo) is released — a task library from the [VoLo](https://chicychen.github.io/VoLo/) project extending RoboLab with long-horizon and reasoning-heavy manipulation tasks, evaluated via the bundled [VoLo policy backend](policies/volo/README.md).
+- **[2026/10/13]** 🔥 [**LADDER**](https://ladder.insait.ai/) introduces RoboLab-Long, a suite of 44 tasks for evaluating long-horizon manipulation, as part of a 145-task benchmark spanning three simulation suites. See [Task Libraries](docs/ecosystem.md#task-libraries).
+- **[2026/08/19]** 🤖 [**DROID+**](https://github.com/NVlabs/DroidPlus) is released: A simple DROID hardware stack. Your RoboLab policy setup will also work with DROID+.
+- **[2026/08/07]** 🔥 [**RoboVoLo**](https://github.com/NVlabs/RoboVoLo) is released — a task library from the [VoLo](https://chicychen.github.io/VoLo/) project extending RoboLab with long-horizon and reasoning-heavy manipulation tasks, evaluated via the bundled [VoLo policy backend](policies/volo/README.md).
+
+For all updates, including minor improvements and bug fixes, see the [Changelog](CHANGELOG.md).
 
 ## Key Features
 
@@ -184,7 +188,7 @@ Third-party dependency licenses are listed in [THIRD_PARTY_NOTICES.md](./THIRD_P
 
 ```bibtex
 @inproceedings{yang2026robolab,
-    author    = {Xuning Yang and Rishit Dagli and Alex Zook and Hugo Hadfield and Ankit Goyal and Stan Birchfield and Fabio Ramos and Jonathan Tremblay},
+    author    = {Jenai Xuning Yang and Rishit Dagli and Alex Zook and Hugo Hadfield and Ankit Goyal and Stan Birchfield and Fabio Ramos and Jonathan Tremblay},
     title     = {{RoboLab: A High-Fidelity Simulation Benchmark for Analysis of Task Generalist Policies}},
     booktitle = {Proceedings of Robotics: Science and Systems},
     year      = {2026},
@@ -197,3 +201,7 @@ Third-party dependency licenses are listed in [THIRD_PARTY_NOTICES.md](./THIRD_P
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for acknowledgements, issues, and how to contribute.
+
+## Astra Agentic Policy experiments
+
+See [the Agentic Policy guide](policies/ai_native/agentic/README.md) for setup, one-episode commands, blog ablation conditions, demonstrations and output interpretation.

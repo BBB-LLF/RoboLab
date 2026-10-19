@@ -13,3 +13,4 @@ For writing your own inference client, see [Evaluating a New Policy](../docs/pol
 | [`gr00t/`](gr00t/README.md) | GR00T N1.7 DROID / GR00T N1.6 DROID | [Website](https://developer.nvidia.com/isaac/gr00t), [Code](https://github.com/NVIDIA/Isaac-GR00T), [Paper](https://arxiv.org/abs/2503.14734) |
 | [`dreamzero/`](dreamzero/README.md) | DreamZero-DROID | [Code](https://github.com/dreamzero0/dreamzero), [Paper](https://arxiv.org/abs/2602.15922) |
 | [`volo/`](volo/README.md) | VoLoAgent | [Website](https://chicychen.github.io/VoLo/), [Code](https://github.com/NVlabs/RoboVoLo), [Paper](https://arxiv.org/abs/2606.07723) |
+| [`ai_native/`](ai_native/README.md) | Direct-API action chunks/B-splines and persistent Codex App Server `agent_eef` | [Design](ai_native/DESIGN.md), [Codex App Server](https://developers.openai.com/codex/app-server), [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) |

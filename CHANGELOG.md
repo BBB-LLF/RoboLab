@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.2] - 2026-10-18
+
+### Added
+
+- AI-native Direct-API and Codex Agent-EEF policy backends, with configurable
+  model access, action representations, history selection, and inference logs.
+- Object-counting task predicates, multiple tracked instruction fields, and
+  support for multi-articulation end-effector recording and gripper labels.
+
+### Changed
+
+- Cosmos3 supports full WebSocket URIs, optional Bearer authentication, and
+  separate policy sessions for parallel environments. Cosmos3 and DreamZero
+  share a MsgPack/NumPy WebSocket transport.
+- Batched policy replans are divided into bounded per-request environment
+  groups.
+
+### Fixed
+
+- Ground meshes no longer occlude cleaning-scene backgrounds.
+- Recorded subtask conditionals resolve correctly during replay.
+
 ## [0.3.1] - 2026-08-11
 
 ### Added
@@ -137,6 +159,7 @@ Initial public release: 100+ benchmark tasks,
 DROID and Franka embodiments, server-client policy evaluation (Pi0 family,
 GR00T, DreamZero), and HDF5 episode recording with analysis tools.
 
+[0.3.2]: https://github.com/NVlabs/RoboLab/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/NVlabs/RoboLab/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/NVlabs/RoboLab/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/NVlabs/RoboLab/compare/v0.2.0...v0.2.1

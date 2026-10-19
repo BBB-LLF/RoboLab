@@ -3,7 +3,7 @@
 
 [project]
 name = "robolab"
-version = "0.3.1"
+version = "0.3.2"
 description = "A benchmark for simulation"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,6 +20,7 @@ dependencies = [
     "numpy",
     "gymnasium",
     # Remote inference
+    "openai",
     "requests",
     "json_numpy",
     "pyzmq",
@@ -61,7 +62,10 @@ isaac51 = [
     "isaacsim[all,extscache]==5.1.0",
 ]
 analysis = ["sbi"]
-test = ["pytest"]
+# httpx: not used directly, but starlette.testclient.TestClient (used by the
+# dashboard's route tests) hard-requires it at import time. Previously only
+# ever present incidentally via other extras' transitive deps.
+test = ["pytest", "httpx"]
 all = ["sbi", "pytest"]
 
 [project.scripts]
@@ -73,6 +77,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["robolab", "robolab.*", "policies", "policies.*", "dashboard", "dashboard.*"]
+exclude = ["policies.ai_native.dev", "policies.ai_native.dev.*", "policies.ai_native.*.dev", "policies.ai_native.*.dev.*"]
 
 [tool.setuptools.package-data]
 dashboard = ["templates/*.html", "static/*"]
@@ -86,12 +91,6 @@ index-strategy = "unsafe-best-match"
 # Declaring them conflicting lets a single lockfile cover both; pick one per
 # environment with `uv sync --extra isaac50` or `--extra isaac51`.
 conflicts = [[{ extra = "isaac50" }, { extra = "isaac51" }]]
-# isaacsim (both the 5.0 and 5.1 kernels) pins websockets==12.0 — stale
-# metadata in practice: kit only uses websockets for livestream/omni.services,
-# which headless eval never touches, and the benchmark runs routinely on
-# isaac50 with websockets 16. Override the pin so the lock resolves a modern
-# websockets for the policy clients instead of being dragged down to 12.0.
-override-dependencies = ["websockets>=14.0"]
 # warp-lang 1.13.0.dev20260418 on pypi.nvidia.com only published the macOS
 # wheel — no Linux build — so any resolver pass that picked it would break
 # `uv sync` on Linux. Exclude that specific version.
@@ -118,7 +117,7 @@ torch = { index = "pytorch-cu128" }
 torchvision = { index = "pytorch-cu128" }
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "dashboard/tests"]
 
 [tool.ruff]
 target-version = "py311"
