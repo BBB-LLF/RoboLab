@@ -67,6 +67,31 @@ try:
         return torch.tensor(scales, dtype=torch.float32, device=self._device)
 
     XformPrimView._get_scales_usd = _get_scales_usd_float3_safe
+
+    # IsaacLab 3.0 reads scales through UsdFrameView.get_scales (used by FabricFrameView when it
+    # first syncs from USD), which has the same ``Vt.Vec3dArray`` assignment and additionally fails
+    # on a scalar scale op (``double xformOp:scale = 1``, as in the shelf_with_cleaning_products
+    # asset: "No registered converter ... GfVec3d from this Python object of type float").
+    try:
+        import warp as wp
+        from isaaclab.sim.views.usd_frame_view import UsdFrameView
+
+        def _get_scales_any_precision(self, indices=None):
+            """Replacement for UsdFrameView.get_scales: float3, double3, scalar or missing scale ops."""
+            scales = []
+            for prim_idx in self._resolve_indices(indices):
+                value = self._prims[prim_idx].GetAttribute("xformOp:scale").Get()
+                if value is None:
+                    scales.append((1.0, 1.0, 1.0))
+                elif isinstance(value, (int, float)):
+                    scales.append((float(value),) * 3)
+                else:
+                    scales.append(tuple(value))
+            return wp.array(np.array(scales, dtype=np.float32), dtype=wp.float32, device=self._device)
+
+        UsdFrameView.get_scales = _get_scales_any_precision
+    except ImportError:
+        pass
 except ImportError:
     # IsaacLab 2.2 / IsaacSim 5.0 — scene extras are isaacsim.core.prims.XFormPrim
     XFORM_PRIM_TYPES = (XFormPrim,)
