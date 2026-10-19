@@ -6,6 +6,8 @@
 
 - Astranomy Direct-API and Codex Agent-EEF policy backends, with configurable
   model access, action representations, history selection, and inference logs.
+- Optional episode context sent once before inference, allowing compatible
+  policy clients to use video demonstrations for in-context learning (ICL).
 - Object-counting task predicates, multiple tracked instruction fields, and
   support for multi-articulation end-effector recording and gripper labels.
 
