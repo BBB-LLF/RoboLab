@@ -12,6 +12,7 @@
 
 ## News
 
+- **[2026/10/18]** 🔥 Added [**Astranomy**](https://research.nvidia.com/labs/srl/projects/astranomy/) policy code, using general-purpose models (such as GPT-6 Astra) as a native robot policy.
 - **[2026/10/13]** 🔥 [**LADDER**](https://ladder.insait.ai/) introduces RoboLab-Long, a suite of 44 tasks for evaluating long-horizon manipulation, as part of a 145-task benchmark spanning three simulation suites. See [Task Libraries](docs/ecosystem.md#task-libraries).
 - **[2026/08/19]** 🤖 [**DROID+**](https://github.com/NVlabs/DroidPlus) is released: A simple DROID hardware stack. Your RoboLab policy setup will also work with DROID+.
 - **[2026/08/07]** 🔥 [**RoboVoLo**](https://github.com/NVlabs/RoboVoLo) is released — a task library from the [VoLo](https://chicychen.github.io/VoLo/) project extending RoboLab with long-horizon and reasoning-heavy manipulation tasks, evaluated via the bundled [VoLo policy backend](policies/volo/README.md).

@@ -4,7 +4,7 @@
 
 ### Added
 
-- AI-native Direct-API and Codex Agent-EEF policy backends, with configurable
+- Astranomy Direct-API and Codex Agent-EEF policy backends, with configurable
   model access, action representations, history selection, and inference logs.
 - Object-counting task predicates, multiple tracked instruction fields, and
   support for multi-articulation end-effector recording and gripper labels.
