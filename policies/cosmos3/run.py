@@ -20,7 +20,7 @@ parser.add_argument(
     "--remote-port", default=8000, type=int, help="Remote port for policy server (default: 8000)."
 )
 
-from robolab.eval.runner import add_common_eval_args, run_evaluation
+from robolab.eval.runner import add_common_eval_args, app_launcher_args, run_evaluation
 
 add_common_eval_args(parser)
 AppLauncher.add_app_launcher_args(parser)
@@ -28,7 +28,7 @@ AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 args_cli.enable_cameras = True
 
-app_launcher = AppLauncher(args_cli)
+app_launcher = AppLauncher(app_launcher_args(args_cli))
 simulation_app = app_launcher.app
 
 from policies.cosmos3.client import Cosmos3Client

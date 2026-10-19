@@ -24,13 +24,13 @@ from robolab.core.environments.config import parse_env_cfg
 from robolab.core.environments.env import RobolabEnv
 from robolab.core.events.utils import merge_events_cfg
 from robolab.core.task.task import resolve_instruction
+from robolab.eval.runner import RENDERER_TO_RTX_MODE
 
 logger = logging.getLogger(__name__)
 
 # Maps the user-facing --renderer choice to the Omniverse "/rtx/rendermode"
-# carb value. "realtime" is IsaacLab's default; we leave it unset so behavior
-# is unchanged and only override the carb setting for the path tracer.
-_RENDERER_TO_RTX_MODE = {"realtime": "RaytracedLighting", "pathtracing": "PathTracing"}
+# carb value (shared with robolab.eval.runner, which also applies it at launch).
+_RENDERER_TO_RTX_MODE = RENDERER_TO_RTX_MODE
 
 
 def _apply_render_settings(env_cfg: ManagerBasedEnvCfg, renderer: str, rendering_mode: str | None) -> None:

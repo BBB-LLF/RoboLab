@@ -39,7 +39,7 @@ parser.add_argument("--cam2-source", default="black",
                     help=("Second exterior camera: 'black' (default, matches training dropout), "
                           "'right' (over-shoulder), 'head' (front overhead), 'duplicate' (copy of left)."))
 
-from robolab.eval.runner import add_common_eval_args, run_evaluation  # noqa: E402
+from robolab.eval.runner import add_common_eval_args, app_launcher_args, run_evaluation  # noqa: E402
 
 add_common_eval_args(parser)
 AppLauncher.add_app_launcher_args(parser)
@@ -47,7 +47,7 @@ AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 args_cli.enable_cameras = True
 
-app_launcher = AppLauncher(args_cli)
+app_launcher = AppLauncher(app_launcher_args(args_cli))
 simulation_app = app_launcher.app
 
 import robolab.constants  # noqa: E402

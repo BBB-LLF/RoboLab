@@ -35,6 +35,32 @@ else:
     ClientFactory = Callable[[argparse.Namespace], object]
 
 
+# The Omniverse "/rtx/rendermode" name of each --renderer choice (also what SimulationApp's
+# "renderer" launch option expects).
+RENDERER_TO_RTX_MODE = {"realtime": "RaytracedLighting", "pathtracing": "PathTracing"}
+
+# Kit 110 (Isaac Sim 6.0) made "RaytracedLighting" select "RTX Real-Time 2.0", a real-time path
+# tracer whose frames are grainy without the DLSS denoiser (unavailable on a headless
+# data-centre driver). The renderer Isaac Sim 5.x ran under that name is now "RTX Real-Time
+# (Legacy)" and has to be switched on when Kit starts; harmless on Isaac Sim 5.x.
+_LEGACY_REALTIME_KIT_ARGS = "--/persistent/rtx/modes/rt/enabled=true --/persistent/rtx/modes/rt2/enabled=true"
+
+
+def app_launcher_args(args: argparse.Namespace) -> dict:
+    """Return the launch options for ``AppLauncher`` so that the renderer picked with
+    ``--renderer`` is the one Isaac Sim actually starts with.
+
+    Use ``AppLauncher(app_launcher_args(args))`` instead of ``AppLauncher(args)``:
+    AppLauncher forwards ``args.renderer`` verbatim to SimulationApp, which expects the
+    RTX mode name ("RaytracedLighting") rather than RoboLab's "realtime", and the legacy
+    real-time renderer must be enabled with Kit arguments at startup (see above).
+    """
+    launcher_args = dict(vars(args))
+    launcher_args["renderer"] = RENDERER_TO_RTX_MODE[args.renderer]
+    launcher_args["kit_args"] = " ".join(filter(None, [launcher_args.get("kit_args"), _LEGACY_REALTIME_KIT_ARGS]))
+    return launcher_args
+
+
 def _unit_interval(s: str) -> float:
     v = float(s)
     if not (0.0 < v <= 1.0):

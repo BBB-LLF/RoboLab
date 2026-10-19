@@ -45,7 +45,7 @@ parser.add_argument("--randomize-background", "--randomize_background", action="
 parser.add_argument("--background-seed", "--background_seed", type=int, default=None,
                     help="Seed for reproducible per-task background sampling. Used with --randomize-background.")
 
-from robolab.eval.runner import add_common_eval_args, run_evaluation  # noqa: E402
+from robolab.eval.runner import add_common_eval_args, app_launcher_args, run_evaluation  # noqa: E402
 
 add_common_eval_args(parser)
 AppLauncher.add_app_launcher_args(parser)
@@ -53,7 +53,7 @@ AppLauncher.add_app_launcher_args(parser)
 args_cli, _ = parser.parse_known_args()
 args_cli.enable_cameras = True
 
-app_launcher = AppLauncher(args_cli)
+app_launcher = AppLauncher(app_launcher_args(args_cli))
 simulation_app = app_launcher.app
 
 import robolab.constants  # noqa: E402
