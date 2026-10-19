@@ -202,7 +202,3 @@ Third-party dependency licenses are listed in [THIRD_PARTY_NOTICES.md](./THIRD_P
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for acknowledgements, issues, and how to contribute.
-
-## Astra Agentic Policy experiments
-
-See [the Agentic Policy guide](policies/ai_native/agentic/README.md) for setup, one-episode commands, blog ablation conditions, demonstrations and output interpretation.
