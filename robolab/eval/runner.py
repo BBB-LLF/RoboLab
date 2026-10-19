@@ -84,6 +84,11 @@ def add_common_eval_args(parser: argparse.ArgumentParser) -> None:
                               "Prefer increasing --num-envs for more episodes. "
                               "Only increase --num-runs if you run out of GPU memory "
                               "with the desired num-envs."))
+    parser.add_argument("--runs-per-task", "--runs_per_task", nargs="*", default=[], metavar="TASK=RUNS",
+                        help=("Per-task override of --num-runs, e.g. BananaInBowlTask=3. Tasks not "
+                              "listed keep --num-runs. Runs are counted from the first run index "
+                              "that has no episode in episode_results.jsonl yet, so a task that "
+                              "already has that many runs is skipped."))
     parser.add_argument("--num-episodes-adaptive", "--num_episodes_adaptive",
                         type=int, default=None, metavar="MAX_N",
                         help=("Enable adaptive sampling per task. Overrides --num-runs. "
@@ -212,6 +217,11 @@ def run_evaluation(
 
     episode_results_file, episode_results = init_experiment(output_dir)
 
+    runs_per_task = {}
+    for item in getattr(args, "runs_per_task", None) or []:
+        name, _, runs = item.partition("=")
+        runs_per_task[name] = int(runs)
+
     save_videos = args.video_mode != "none"
 
     for task_env in task_envs:
@@ -219,10 +229,17 @@ def run_evaluation(
         os.makedirs(scene_output_dir, exist_ok=True)
         set_output_dir(scene_output_dir)
 
-        if check_all_episodes_complete(
-            episode_results=episode_results, env_name=task_env, num_episodes=total_episodes
-        ):
-            print(f"\033[96m[RoboLab] Task `{task_env}` already done. Skipping.\033[0m")
+        task_num_runs = runs_per_task.get(task_env, num_runs)
+        # Resume from the run index after the last one recorded for this task. Run indices
+        # and episode ids (run * num_envs + env_id) then never repeat an earlier record, also
+        # when the folder was written with a different --num-envs; a run index missing below
+        # the last one is left alone rather than filled in.
+        first_run = 1 + max((int(r["run"]) for r in episode_results if r.get("env_name") == task_env), default=-1)
+        task_done = (check_all_episodes_complete(episode_results=episode_results, env_name=task_env,
+                                                 num_episodes=total_episodes)
+                     if is_adaptive else first_run >= task_num_runs)
+        if task_done:
+            print(f"\033[96m[RoboLab] Task `{task_env}` already done ({first_run} runs). Skipping.\033[0m")
             continue
 
         env, env_cfg = create_env(
@@ -244,7 +261,7 @@ def run_evaluation(
 
         client = client_factory(args)
 
-        run_idx = 0
+        run_idx = first_run
         while True:
             if is_adaptive:
                 k_so_far, n_so_far = count_task_episodes(episode_results, task_env)
@@ -257,7 +274,7 @@ def run_evaluation(
                     )
                     break
             else:
-                if run_idx >= num_runs:
+                if run_idx >= task_num_runs:
                     break
 
             run_episode_ids = [run_idx * num_envs + eid for eid in range(num_envs)]
